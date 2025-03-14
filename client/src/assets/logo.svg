@@ -1,0 +1,48 @@
+<svg width="180" height="40" viewBox="0 0 180 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <style>
+        .grad-text { font-size: 28px; font-weight: 700; font-family: 'Inter', sans-serif; }
+        .tagline { font-size: 12px; font-weight: 500; font-family: 'Inter', sans-serif; opacity:
+        0.7; }
+        @media (prefers-color-scheme: dark) {
+        .icon { filter: brightness(0) invert(1); }
+        }
+    </style>
+
+    <!-- Code brackets icon -->
+    <path d="M20 10L10 20L20 30" stroke="url(#paint0_linear)" stroke-width="3.5"
+        stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M40 10L50 20L40 30" stroke="url(#paint1_linear)" stroke-width="3.5"
+        stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M25 5L35 35" stroke="url(#paint2_linear)" stroke-width="3.5" stroke-linecap="round" />
+
+    <!-- Text components -->
+    <text x="55" y="27" class="grad-text">
+        <tspan fill="url(#paint3_linear)">SnipHub</tspan>
+    </text>
+
+
+    <!-- Gradient definitions -->
+    <defs>
+        <linearGradient id="paint0_linear" x1="10" y1="20" x2="20" y2="30"
+            gradientUnits="userSpaceOnUse">
+            <stop stop-color="#4361ee" />
+            <stop offset="1" stop-color="#3a0ca3" />
+        </linearGradient>
+        <linearGradient id="paint1_linear" x1="40" y1="10" x2="50" y2="30"
+            gradientUnits="userSpaceOnUse">
+            <stop stop-color="#4361ee" />
+            <stop offset="1" stop-color="#7209b7" />
+        </linearGradient>
+        <linearGradient id="paint2_linear" x1="25" y1="5" x2="35" y2="35"
+            gradientUnits="userSpaceOnUse">
+            <stop stop-color="#3a0ca3" />
+            <stop offset="1" stop-color="#7209b7" />
+        </linearGradient>
+        <linearGradient id="paint3_linear" x1="70" y1="15" x2="140" y2="27"
+            gradientUnits="userSpaceOnUse">
+            <stop stop-color="#4361ee" />
+            <stop offset="0.5" stop-color="#3a0ca3" />
+            <stop offset="1" stop-color="#7209b7" />
+        </linearGradient>
+    </defs>
+</svg>
