@@ -1,39 +1,60 @@
-# SnipHub - Code Snippet Sharing Application
+# SnipHub
 
-A web application for sharing code snippets with syntax highlighting and user authentication.
+SnipHub is a full-stack web application for storing, sharing, and discovering code snippets. It provides syntax highlighting across a wide range of programming languages, user authentication, and a favorites system so you can bookmark the snippets that matter most to you. Whether you are building a personal snippet library or sharing useful code with others, SnipHub gives you a clean, straightforward interface to do it.
+
+---
 
 ## Features
 
-- **CRUD Operations**: Create, view, edit, and delete code snippets
-- **Syntax Highlighting**: Supports multiple programming languages
-- **User Authentication**: Secure signup/login using JWT
-- **Search & Filter**: Easily find snippets by language, keyword, or user
-- **User Profiles**: View and manage personal snippets
+- **CRUD Operations**: Create, view, edit, and delete your own code snippets.
+- **Syntax Highlighting**: Powered by highlight.js with support for 40+ programming languages.
+- **User Authentication**: Secure registration and login using JWT tokens (valid for 7 days).
+- **Favorites**: Save snippets created by other users to your personal favorites list.
+- **Search and Filter**: Browse and filter snippets by language, keyword, or author.
+- **User Profiles**: View your own snippets and manage your account.
+- **API Documentation**: Interactive Swagger UI available at `/api-docs`.
+- **Database Seeding**: Quickly populate the database with sample users and snippets for development.
+
+---
 
 ## Tech Stack
 
-- **Backend**: Node.js with Express.js
-- **Database**: MongoDB
-- **Frontend**: Vue.js 3 with Vite
-- **API**: RESTful API
+| Layer | Technology |
+|---|---|
+| Frontend | Vue.js 3, Vuex, Vue Router, Vite |
+| Backend | Node.js, Express.js |
+| Database | MongoDB, Mongoose |
+| Auth | JSON Web Tokens (JWT), bcryptjs |
+| Styling | Bootstrap 5, Bootstrap Icons |
+| API Docs | Swagger (swagger-jsdoc, swagger-ui-express) |
+
+---
 
 ## Prerequisites
 
-- Node.js (v16+)
-- MongoDB
+- [Node.js](https://nodejs.org/) v16 or higher
+- [MongoDB](https://www.mongodb.com/) (local instance or a cloud connection string such as MongoDB Atlas)
 
-## Setup Instructions
+---
 
-### 1. Clone the Repository
+## Installation
+
+**1. Clone the repository**
 
 ```bash
-git clone https://github.com/AntonHennig/SnipHub.git
+git clone https://github.com/diiinkleberg/SnipHub.git
 cd SnipHub
 ```
 
-### 2. Environment Variables
+**2. Configure environment variables**
 
-Create a `.env` file in the project root with the following variables:
+Copy the example environment file and fill in your values:
+
+```bash
+cp .env.example .env
+```
+
+Open `.env` and set the following:
 
 ```env
 # Backend
@@ -52,59 +73,81 @@ You can generate a strong JWT secret using Node.js:
 node -e "console.log(require('crypto').randomBytes(64).toString('hex'))"
 ```
 
-### 3. Install Dependencies
+**3. Install all dependencies**
 
 ```bash
 npm run install-all
 ```
 
-This script installs dependencies for both server and client.
+This installs dependencies for the root, `server`, and `client` packages in a single step.
 
-### 4. Start the Application
-
-To run both frontend and backend concurrently:
+**4. Start the application**
 
 ```bash
 npm run dev
 ```
 
-- Backend: http://localhost:5000
-- API Documentation http://localhost:5000/api-docs
-- Frontend: http://localhost:3000
+This concurrently starts the backend and frontend development servers. Once running, the following URLs are available:
+
+| Service | URL |
+|---|---|
+| Frontend | http://localhost:3000 |
+| API Server | http://localhost:5000 |
+| API Documentation | http://localhost:5000/api-docs |
+
+---
 
 ## Available Scripts
 
-- `npm run start`: Start the backend server only
-- `npm run server`: Start the backend in development mode
-- `npm run client`: Start the frontend development server
-- `npm run dev`: Run both frontend and backend together
-- `npm run install-all`: Install all dependencies
-- `npm run seed`: Seed the database with sample users and snippets
+Run these from the project root:
+
+| Script | Description |
+|---|---|
+| `npm run dev` | Start frontend and backend together (recommended for development) |
+| `npm run start` | Start the backend server only (production mode) |
+| `npm run server` | Start the backend in development mode with nodemon |
+| `npm run client` | Start the frontend development server only |
+| `npm run install-all` | Install all dependencies for root, server, and client |
+| `npm run seed` | Seed the database with sample users and snippets |
+
+---
 
 ## API Endpoints
 
+Full interactive documentation is available at **http://localhost:5000/api-docs** when the server is running.
+
 ### Authentication
 
-- `POST /api/auth/register` - Register a new user
-- `POST /api/auth/login` - User login
-- `GET /api/auth/me` - Get current user profile
-
-### Users
-
-- `GET /api/users/:id` - Get user by ID
-- `GET /api/users/:id/snippets` - Get all snippets by a specific user
-- `GET /api/users/favorites` - Get all favorite snippets (auth required)
-- `POST /api/users/favorites/:snippetId` - Add a snippet to favorites (auth required)
-- `DELETE /api/users/favorites/:snippetId` - Remove a snippet from favorites (auth required)
+| Method | Endpoint | Description | Auth Required |
+|---|---|---|---|
+| POST | `/api/auth/register` | Register a new user | No |
+| POST | `/api/auth/login` | Login with email/username and password | No |
+| GET | `/api/auth/me` | Get the current authenticated user's profile | Yes |
 
 ### Snippets
 
-- `GET /api/snippets` - Fetch all snippets (supports filters)
-- `GET /api/snippets/:id` - Fetch a specific snippet
-- `POST /api/snippets` - Create a new snippet (auth required)
-- `PUT /api/snippets/:id` - Update a snippet (auth required)
-- `DELETE /api/snippets/:id` - Delete a snippet (auth required)
-- `GET /api/snippets/languages/list` - Get list of all programming languages used
+| Method | Endpoint | Description | Auth Required |
+|---|---|---|---|
+| GET | `/api/snippets` | Fetch all snippets (supports filters) | No |
+| GET | `/api/snippets/:id` | Fetch a specific snippet by ID | No |
+| POST | `/api/snippets` | Create a new snippet | Yes |
+| PUT | `/api/snippets/:id` | Update an existing snippet | Yes (owner only) |
+| DELETE | `/api/snippets/:id` | Delete a snippet | Yes (owner only) |
+| GET | `/api/snippets/languages/list` | Get a list of all languages in use | No |
+
+### Users
+
+| Method | Endpoint | Description | Auth Required |
+|---|---|---|---|
+| GET | `/api/users/:id` | Get a user by ID | No |
+| GET | `/api/users/:id/snippets` | Get all snippets by a specific user | No |
+| GET | `/api/users/favorites` | Get the authenticated user's favorites | Yes |
+| POST | `/api/users/favorites/:snippetId` | Add a snippet to favorites | Yes |
+| DELETE | `/api/users/favorites/:snippetId` | Remove a snippet from favorites | Yes |
+
+> Protected endpoints require an `x-auth-token` header containing a valid JWT.
+
+---
 
 ## Data Models
 
@@ -112,13 +155,13 @@ npm run dev
 
 ```javascript
 {
-  title: String,           // Required
-  code: String,            // Required
+  title: String,               // Required
+  code: String,                // Required
   programmingLanguage: String, // Required, default: 'javascript'
-  description: String,     // Optional
-  user: ObjectId,          // Reference to User
-  createdAt: Date,         // Automatically set
-  updatedAt: Date          // Automatically updated
+  description: String,         // Optional
+  user: ObjectId,              // Reference to User
+  createdAt: Date,             // Set automatically
+  updatedAt: Date              // Updated automatically
 }
 ```
 
@@ -126,11 +169,60 @@ npm run dev
 
 ```javascript
 {
-  username: String,        // Required, unique
-  email: String,           // Required, unique
-  password: String,        // Required (stored as hash)
-  favorites: [ObjectId],   // References to Snippets
-  createdAt: Date,         // Automatically set
-  updatedAt: Date          // Automatically updated
+  username: String,            // Required, unique
+  email: String,               // Required, unique
+  password: String,            // Required (stored as bcrypt hash)
+  favorites: [ObjectId],       // References to Snippets
+  createdAt: Date,             // Set automatically
+  updatedAt: Date              // Updated automatically
 }
 ```
+
+---
+
+## Project Structure
+
+```
+SnipHub/
+├── client/                    # Vue.js 3 frontend (Vite)
+│   └── src/
+│       └── views/             # Page-level components
+│           ├── Home.vue
+│           ├── CreateSnippet.vue
+│           ├── EditSnippet.vue
+│           ├── SnippetDetail.vue
+│           ├── Profile.vue
+│           ├── Favorites.vue
+│           ├── Login.vue
+│           ├── Register.vue
+│           └── NotFound.vue
+├── server/                    # Express.js backend
+│   ├── config/                # Database connection configuration
+│   ├── middleware/            # JWT authentication middleware
+│   ├── models/                # Mongoose data models
+│   ├── routes/                # API route handlers and Swagger spec
+│   ├── server.js              # Server entry point
+│   ├── seedDB.js              # Database seeding script
+│   └── swagger.js             # Swagger configuration
+├── .env.example               # Environment variable template
+├── package.json               # Root package with shared scripts
+└── Readme.md
+```
+
+---
+
+## Authentication
+
+Authentication uses JSON Web Tokens. After registering or logging in, the server returns a token that must be included in the `x-auth-token` header for all protected requests:
+
+```
+x-auth-token: <your_jwt_token>
+```
+
+Tokens expire after 7 days. Login supports both email address and username as the identifier.
+
+---
+
+## License
+
+This project is licensed under the ISC License.
